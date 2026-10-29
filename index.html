@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cronos</title>
+<meta name="description" content="Cronograma de estudos, revisões espaçadas e áudios para a prova da Transpetro 2026.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2B2580">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cronos">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{
+  --topo:#4A40D8; --base:#2B2580; --ink:#FFFFFF; --ink-2:rgba(255,255,255,.74); --linha:rgba(255,255,255,.18);
+  --botao:#FFFFFF; --botao-ink:#2B2580; --ambar:#F5A524;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--base);background-image:linear-gradient(180deg,var(--topo),var(--base) 70%);color:var(--ink);
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;
+  display:flex;align-items:center;justify-content:center;padding:max(24px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom))}
+main{width:100%;max-width:400px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
+.icone{width:112px;height:112px;border-radius:28px;box-shadow:0 12px 32px rgba(10,8,40,.45)}
+h1{margin:0;font-size:32px;line-height:38px;font-weight:700;letter-spacing:-.01em}
+p{margin:0;font-size:16px;line-height:24px;color:var(--ink-2);text-wrap:pretty}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;padding:14px 20px;border-radius:999px;
+  font:600 17px/22px inherit;font-family:inherit;text-decoration:none;cursor:pointer;border:1.5px solid var(--linha);background:transparent;color:var(--ink)}
+.btn.pri{background:var(--botao);border-color:var(--botao);color:var(--botao-ink)}
+.btn:focus-visible{outline:3px solid var(--ambar);outline-offset:3px}
+.passos{width:100%;margin:0;padding:16px;border:1px solid var(--linha);border-radius:20px;text-align:left;display:flex;flex-direction:column;gap:12px;list-style:none;counter-reset:p}
+.passos li{counter-increment:p;display:flex;gap:12px;font-size:15px;line-height:22px;color:var(--ink)}
+.passos li::before{content:counter(p);flex:none;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.16);font-size:13px;line-height:24px;text-align:center;font-weight:700}
+.miudo{font-size:13px;line-height:18px}
+.girando{width:28px;height:28px;border-radius:50%;border:3px solid rgba(255,255,255,.25);border-top-color:var(--ambar);animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.girando{animation-duration:2.4s}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <img class="icone" src="icon-512.png" width="112" height="112" alt="">
+
+  <!-- Aberto pelo ícone instalado -->
+  <section id="abrindo" hidden style="display:flex;flex-direction:column;align-items:center;gap:16px">
+    <h1>Cronos</h1>
+    <div class="girando" role="status" aria-label="Abrindo o Cronos"></div>
+    <p>Abrindo seu cronograma…</p>
+  </section>
+
+  <section id="voltar" hidden style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%">
+    <h1>Cronos</h1>
+    <a class="btn pri" id="abrir-1" href="#">Abrir o Cronos</a>
+    <p class="miudo">Se pedir login, entre com a mesma conta do claude.ai que você usa no celular.</p>
+  </section>
+
+  <section id="semnet" hidden style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%">
+    <h1>Sem internet</h1>
+    <p>O Cronos precisa de internet para abrir seu cronograma e tocar os áudios. Conecte e tente de novo.</p>
+    <button type="button" class="btn pri" id="tentar">Tentar de novo</button>
+  </section>
+
+  <!-- Aberto no navegador: instalar -->
+  <section id="instalar" hidden style="display:flex;flex-direction:column;align-items:center;gap:20px;width:100%">
+    <h1>Instale o Cronos</h1>
+    <p>Ele fica na tela inicial e na lista de apps do aparelho, com este ícone, como qualquer outro aplicativo.</p>
+    <button type="button" class="btn pri" id="btn-instalar" hidden>Instalar o Cronos</button>
+    <ol class="passos" id="passos-android" hidden>
+      <li>Abra este endereço no Google Chrome.</li>
+      <li>Toque no menu ⋮ no canto de cima.</li>
+      <li>Toque em “Instalar app” (ou “Adicionar à tela inicial” e depois “Instalar”).</li>
+    </ol>
+    <ol class="passos" id="passos-ios" hidden>
+      <li>Abra este endereço no Safari.</li>
+      <li>Toque em Compartilhar (o quadrado com a seta para cima).</li>
+      <li>Toque em “Adicionar à Tela de Início” e depois em “Adicionar”.</li>
+    </ol>
+    <a class="btn" id="abrir-2" href="#">Abrir o Cronos sem instalar</a>
+  </section>
+
+  <section id="pronto" hidden style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%">
+    <h1>Pronto!</h1>
+    <p>O Cronos está na sua tela inicial. Abra pelo ícone a partir de agora.</p>
+  </section>
+</main>
+<script>
+(function(){
+  var APP = 'https://claude.ai/artifact/3yQSkJsNNAV6H15ufuorYR';
+  var $ = function(id){ return document.getElementById(id); };
+  var mostrar = function(id){ ['abrindo','voltar','semnet','instalar','pronto'].forEach(function(s){ $(s).hidden = (s !== id); }); };
+  $('abrir-1').href = APP; $('abrir-2').href = APP;
+
+  var instalado = false;
+  try { instalado = window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches || window.matchMedia('(display-mode: minimal-ui)').matches || window.navigator.standalone === true; } catch(e){}
+
+  if ('serviceWorker' in navigator) { try { navigator.serviceWorker.register('sw.js'); } catch(e){} }
+
+  function abrirApp(){
+    if (navigator.onLine === false){ mostrar('semnet'); return; }
+    mostrar('abrindo');
+    setTimeout(function(){ location.replace(APP); }, 250);
+  }
+
+  if (instalado){
+    // Abre o Cronos uma vez por sessão; ao voltar para cá, mostra o botão em vez de pular de novo.
+    var jaAbriu = false;
+    try { jaAbriu = sessionStorage.getItem('cronos.abriu') === '1'; sessionStorage.setItem('cronos.abriu', '1'); } catch(e){}
+    if (jaAbriu) mostrar('voltar'); else abrirApp();
+    $('tentar').addEventListener('click', abrirApp);
+    window.addEventListener('pageshow', function(ev){ if (ev.persisted) mostrar('voltar'); });
+    return;
+  }
+
+  // No navegador: oferecer a instalação.
+  mostrar('instalar');
+  var ios = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  $(ios ? 'passos-ios' : 'passos-android').hidden = false;
+  var pedido = null;
+  window.addEventListener('beforeinstallprompt', function(ev){
+    ev.preventDefault(); pedido = ev;
+    $('btn-instalar').hidden = false;
+    $('passos-android').hidden = true;
+  });
+  $('btn-instalar').addEventListener('click', function(){
+    if (!pedido) return;
+    pedido.prompt();
+    pedido.userChoice.then(function(r){ if (r && r.outcome === 'accepted') mostrar('pronto'); pedido = null; $('btn-instalar').hidden = true; }, function(){});
+  });
+  window.addEventListener('appinstalled', function(){ mostrar('pronto'); });
+})();
+</script>
+</body>
+</html>
